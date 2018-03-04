@@ -18,23 +18,20 @@
 #define LT_GREEN	"\x1b[32;1m"
 #define CLR_RESET	"\x1b[0m"
 
+const int sample[][MAXN + 1] = {{0,0,0,0,-1},{1,0,0,0,-1},{0,1,0,0,-1},{0,0,1,0,-1},{0,0,0,1,-1}}; // adds plus one because of the threshold
+const int answer[MAX_TRAINING] = {0, 1, 1, 1, 1};
+
 typedef struct neuron
 {
 	int epoch;
-	int sample[MAX_TRAINING][MAXN + 1];
-	int answer[MAX_TRAINING];
 	long double weight[MAXN + 1];
 
 	neuron()
 	{
 		epoch = 1000;
 
-		for(int i=0; i<MAX_TRAINING; ++i)
-			sample[i][MAXN] = threshold;
-
-		for(int i=0; i<MAXN; ++i)
+		for(int i=0; i<=MAXN; ++i)
 			weight[i] = ((rand() % 101) * 2 - 100) / 100.0;
-		weight[MAXN] = threshold;
 	}
 
 	void training()
@@ -98,15 +95,9 @@ void testOutput(neuron perceptron)
 
 int main()
 {
-	neuron perceptron;
-
-	for(int i=0; i<MAX_TRAINING; ++i) {
-		for(int k=0; k<MAXN; ++k)
-			scanf("%d", &perceptron.sample[i][k]);
-
-		scanf("%d", &perceptron.answer[i]);
-	}
- 
+	neuron perceptron; 
 	perceptron.training();
 	testOutput(perceptron);
+    
+    return 0;
 }
